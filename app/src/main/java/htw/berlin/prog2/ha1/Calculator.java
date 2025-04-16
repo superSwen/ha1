@@ -29,12 +29,15 @@ public class Calculator {
      * @param digit Die Ziffer, deren Taste gedrückt wurde
      */
     public void pressDigitKey(int digit) {
-        if(digit > 9 || digit < 0) throw new IllegalArgumentException();
+        if (digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
+        if (screen.equals("0") || screen.equals("-0") || screen.equals("-") || latestValue == Double.parseDouble(screen)) {
+            screen = screen.startsWith("-") ? "-" : "";
+        }
 
         screen = screen + digit;
     }
+
 
     /**
      * Empfängt den Befehl der C- bzw. CE-Taste (Clear bzw. Clear Entry).
@@ -60,8 +63,27 @@ public class Calculator {
      * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation)  {
-        latestValue = Double.parseDouble(screen);
+        double safedValue = Double.parseDouble(screen);
+
+        if(safedValue != 0.0){
+            switch(operation){
+                case "+": latestValue += safedValue;
+                break;
+                case "-": latestValue -= safedValue;
+                break;
+                case "x": latestValue *= safedValue;
+                break;
+                case "/":
+                    if (safedValue == 0){
+                        screen = "error";
+                    }else {latestValue /= safedValue;}
+                    break;
+            }
+        }else {latestValue = safedValue;}
+
+        screen = Double.toString(latestValue);
         latestOperation = operation;
+
     }
 
     /**
@@ -106,6 +128,7 @@ public class Calculator {
      */
     public void pressNegativeKey() {
         screen = screen.startsWith("-") ? screen.substring(1) : "-" + screen;
+
     }
 
     /**
