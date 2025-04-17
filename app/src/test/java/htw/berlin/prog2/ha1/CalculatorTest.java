@@ -124,7 +124,7 @@ class CalculatorTest {
     }
 
     @Test
-    @DisplayName("should allow multiple different operations")
+    @DisplayName("should allow multiple additions")
     void testMultipleOperation() {
         Calculator calc = new Calculator();
 

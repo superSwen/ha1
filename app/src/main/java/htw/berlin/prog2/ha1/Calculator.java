@@ -76,7 +76,8 @@ public class Calculator {
                 case "/":
                     if (safedValue == 0){
                         screen = "error";
-                    }else {latestValue /= safedValue;}
+                    }
+                    else {latestValue /= safedValue;}
                     break;
             }
         }else {latestValue = safedValue;}
